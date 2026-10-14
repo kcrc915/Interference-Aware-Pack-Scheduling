@@ -1,0 +1,2 @@
+app_a,app_b,core_split_a,core_split_b,rep,t_solo_a,t_co_a,slowdown_a,t_solo_b,t_co_b,slowdown_b
+XSBench,LU,8,16,1,13.5956,14.0388,1.0326,45.6298,44.7097,0.9798

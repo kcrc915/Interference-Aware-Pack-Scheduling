@@ -1,0 +1,2 @@
+app_a,app_b,core_split_a,core_split_b,rep,t_solo_a,t_co_a,slowdown_a,t_solo_b,t_co_b,slowdown_b
+Quicksilver,HPCG,8,16,1,4.7155,4.7596,1.0094,40.8942,40.2630,0.9846

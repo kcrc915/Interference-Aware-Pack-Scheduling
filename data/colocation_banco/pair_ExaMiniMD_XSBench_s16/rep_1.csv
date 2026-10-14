@@ -1,0 +1,2 @@
+app_a,app_b,core_split_a,core_split_b,rep,t_solo_a,t_co_a,slowdown_a,t_solo_b,t_co_b,slowdown_b
+ExaMiniMD,XSBench,16,8,1,2.3300,2.3564,1.0113,13.2970,13.5897,1.0220

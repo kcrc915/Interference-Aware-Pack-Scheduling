@@ -1,0 +1,2 @@
+app_a,app_b,core_split_a,core_split_b,rep,t_solo_a,t_co_a,slowdown_a,t_solo_b,t_co_b,slowdown_b
+CG,HPCG,16,8,1,22.9488,23.7150,1.0334,37.3156,39.3552,1.0547

@@ -1,0 +1,2 @@
+app_a,app_b,core_split_a,core_split_b,rep,t_solo_a,t_co_a,slowdown_a,t_solo_b,t_co_b,slowdown_b
+ExaMiniMD,HPCG,16,8,1,2.3300,2.3558,1.0110,37.3156,38.0053,1.0185

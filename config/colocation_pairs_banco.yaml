@@ -1,0 +1,54 @@
+# Phase B (banco) co-location pair set.
+#
+# Selected via archetype clustering on the banco solo-profile sweep (24-core,
+# whole-run counters, performance governor). k-means (k=3) on each app's
+# [dram_bw_24core, dram_bw_growth, tma_backend_mean, mpki_mean,
+# ipc_degradation, speedup_24, llc_miss_mean] signature gives three groups:
+#
+#   A -- good scalers, moderate demand:  LULESH, Quicksilver, ExaMiniMD, FT
+#   B -- backend-stalled, cache-pressure: XSBench, CG, LU
+#   C -- high absolute bandwidth demand:  HPCG, MG, miniFE, AMG, SP
+#
+# Representatives chosen to also cover within-archetype outliers noted at
+# k=4: ExaMiniMD (best overall scaler) + Quicksilver (highest bandwidth
+# *growth* rate, also showed the sharpest NUMA-crossing penalty in solo
+# data) for A; XSBench (MPKI outlier) + CG (scales well despite high
+# backend-stall) for B; HPCG (extreme bandwidth-saturated, ~flat scaling)
+# + SP (high bandwidth but still scales reasonably) for C.
+#
+# Set: every between-archetype representative combination (2x2 per
+# archetype-pair-type x 3 archetype-pair-types = 12), plus 4 within-archetype
+# calibration pairs chosen to pull in every app not already used as a
+# representative (LULESH, FT, LU, AMG, MG, miniFE) -- so all 12 apps appear
+# in at least one pair. 16 pairs total, each run at 3 core splits (12/12
+# symmetric, 8/16 and 16/8 asymmetric) x 4 reps = 192 co-run executions.
+#
+# EP, IS, BT, miniAMR, CoMD excluded for now (EP: turbo-boost timing issue
+# pending re-collection; IS/BT: still finishing solo sweep; miniAMR/CoMD:
+# MPI launch issue not yet resolved).
+
+pairs:
+  # --- A x B (good-scaler vs backend-stalled) ---
+  - {a: ExaMiniMD, b: XSBench, rationale: "A-rep (best scaler) vs B-rep (MPKI outlier)"}
+  - {a: ExaMiniMD, b: CG, rationale: "A-rep vs B-rep (scales well despite backend-stall)"}
+  - {a: Quicksilver, b: XSBench, rationale: "A-rep (bandwidth-growth/NUMA-sensitive) vs B-rep"}
+  - {a: Quicksilver, b: CG, rationale: "A-rep vs B-rep"}
+
+  # --- A x C (good-scaler vs high-bandwidth) ---
+  - {a: ExaMiniMD, b: HPCG, rationale: "A-rep vs C extreme case (bandwidth-saturated, flat scaling)"}
+  - {a: ExaMiniMD, b: SP, rationale: "A-rep vs C-rep (high bandwidth, still scales ok)"}
+  - {a: Quicksilver, b: HPCG, rationale: "A-rep vs C extreme case"}
+  - {a: Quicksilver, b: SP, rationale: "A-rep vs C-rep"}
+
+  # --- B x C (backend-stalled vs high-bandwidth) ---
+  - {a: XSBench, b: HPCG, rationale: "B-rep vs C extreme case -- both bandwidth/latency sensitive"}
+  - {a: XSBench, b: SP, rationale: "B-rep vs C-rep"}
+  - {a: CG, b: HPCG, rationale: "B-rep vs C extreme case"}
+  - {a: CG, b: SP, rationale: "B-rep vs C-rep"}
+
+  # --- within-archetype calibration (tests whether same-cluster apps really
+  #     behave similarly as co-runners, and pulls in the remaining apps) ---
+  - {a: LULESH, b: FT, rationale: "within-A calibration"}
+  - {a: XSBench, b: LU, rationale: "within-B calibration (outlier vs typical)"}
+  - {a: HPCG, b: AMG, rationale: "within-C calibration (extreme vs typical)"}
+  - {a: MG, b: miniFE, rationale: "within-C calibration, pulls in MG/miniFE"}

@@ -1,0 +1,2 @@
+app_a,app_b,core_split_a,core_split_b,rep,t_solo_a,t_co_a,slowdown_a,t_solo_b,t_co_b,slowdown_b
+XSBench,HPCG,12,12,1,11.1655,11.2447,1.0071,37.6554,37.9241,1.0071
